@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2D Canvas</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="paint"></canvas>
+
+    <script>
+      const canvas = document.querySelector('#paint');
+      const ctx = canvas.getContext('2d');
+      //canvas dimensions
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      //context config
+      // Color of stroke
+      ctx.strokeStyle = '#BADA55';
+      // shape used to join two line segments where they meet.
+      ctx.lineJoin = 'round';
+      // shape used to draw the end points of lines
+      ctx.lineCap = 'round';
+      //stroke width
+      ctx.lineWidth = 10;
+      //Determines is user is drawing
+      let isDrawing = false;
+      let lastX = 0;
+      let lastY = 0;
+      let hue = 0;
+      let direction = true;
+
+      function paint(e) {
+        if (!isDrawing) return; //the user is not drawing because the mouse is not down
+        //change stroke color
+        ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+        //create a new path to render
+        ctx.beginPath();
+        // start from
+        ctx.moveTo(lastX, lastY);
+        // go to
+        ctx.lineTo(e.offsetX, e.offsetY);
+        //draw the stroke
+        ctx.stroke();
+        //setting the next values
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+        hue++;
+        if (hue > 300) {
+          hue = 0;
+        }
+
+        if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+          direction = !direction;
+        }
+
+        direction ? ctx.lineWidth++ : ctx.lineWidth--;
+      }
+
+      //listen where mouse is move on canvas
+      canvas.addEventListener('mousemove', paint);
+      //if user click is drawing is true
+      canvas.addEventListener('mousedown', (e) => {
+        isDrawing = true;
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+      });
+      //is user it not click it is not drawing
+      canvas.addEventListener('mouseup', () => (isDrawing = false));
+      //when mouse is out of the canvas change drawing variable
+      canvas.addEventListener('mouseout', () => (isDrawing = false));
+    </script>
+  </body>
+</html>
