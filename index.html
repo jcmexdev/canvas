@@ -11,17 +11,43 @@
         padding: 0;
         box-sizing: border-box;
       }
+
+      body {
+        background: #263238;
+      }
+      .controls {
+        width: 100%;
+        height: 100px;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+      }
+      button {
+        margin-left: 24px;
+        padding: 10px;
+      }
+      canvas {
+        display: block;
+        margin: 0 auto;
+        border: 3px dashed white;
+      }
     </style>
   </head>
   <body>
+    <section class="controls">
+      Draw in the board <button id="clear">Clear Board</button>
+    </section>
     <canvas id="paint"></canvas>
 
     <script>
       const canvas = document.querySelector('#paint');
       const ctx = canvas.getContext('2d');
+      const clearBtn = document.querySelector('#clear');
       //canvas dimensions
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth - 40;
+      canvas.height = window.innerHeight - 200;
       //context config
       // Color of stroke
       ctx.strokeStyle = '#BADA55';
@@ -57,7 +83,7 @@
           hue = 0;
         }
 
-        if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+        if (ctx.lineWidth >= 70 || ctx.lineWidth <= 1) {
           direction = !direction;
         }
 
@@ -75,6 +101,13 @@
       canvas.addEventListener('mouseup', () => (isDrawing = false));
       //when mouse is out of the canvas change drawing variable
       canvas.addEventListener('mouseout', () => (isDrawing = false));
+
+      function clear() {
+        console.log('limpiando...');
+        ctx.clearRect(0, 0, window.innerWidth, window.screen.height);
+      }
+
+      clearBtn.addEventListener('click', clear);
     </script>
   </body>
 </html>

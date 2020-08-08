@@ -2,11 +2,11 @@
 
 This is a board made with canvas element and JS you can draw really cool strokes.
 
-## [Demo](https://jcmexdev.github.io/canvas/)
+## [Demo](https://jcmexdev.github.io/canvas)
 
 ## Fast Review
 
-![Review](https://i.imgur.com/SdV83sG.png)
+![Review](demo.PNG)
 
 ## Install
 
